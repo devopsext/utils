@@ -1,4 +1,4 @@
-module github.com/devopsext/utils
+module utils
 
 go 1.13
 
