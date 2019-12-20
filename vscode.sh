@@ -6,3 +6,4 @@ export PATH="$PATH:$GOROOT/bin"
 export GO111MODULE=on
 
 exec code .
+
