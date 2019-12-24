@@ -17,3 +17,14 @@ func IsEmpty(v interface{}) bool {
 	}
 
 }
+
+// Contains ...
+func Contains(items []interface{}, item interface{}) bool {
+
+	for i := range items {
+		if items[i] == item {
+			return true
+		}
+	}
+	return false
+}
