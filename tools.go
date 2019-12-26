@@ -1,6 +1,9 @@
 package utils
 
-import "strings"
+import (
+	"reflect"
+	"strings"
+)
 
 // IsEmpty ...
 func IsEmpty(v interface{}) bool {
@@ -19,12 +22,20 @@ func IsEmpty(v interface{}) bool {
 }
 
 // Contains ...
-func Contains(items []interface{}, item interface{}) bool {
+func Contains(items interface{}, item interface{}) bool {
 
-	for i := range items {
-		if items[i] == item {
-			return true
+	arrV := reflect.ValueOf(items)
+
+	if arrV.Kind() == reflect.Slice {
+		for i := 0; i < arrV.Len(); i++ {
+
+			// XXX - panics if slice element points to an unexported struct field
+			// see https://golang.org/pkg/reflect/#Value.Interface
+			if arrV.Index(i).Interface() == item {
+				return true
+			}
 		}
 	}
+
 	return false
 }
