@@ -5,9 +5,7 @@ import (
 	"strconv"
 )
 
-type Environment struct{}
-
-func (e *Environment) Get(key string, defaultValue interface{}) interface{} {
+func EnvGet(key string, defaultValue interface{}) interface{} {
 
 	value := os.Getenv(key)
 	if len(value) == 0 {
@@ -30,14 +28,4 @@ func (e *Environment) Get(key string, defaultValue interface{}) interface{} {
 	default:
 		return value
 	}
-}
-
-func NewEnvironment() *Environment {
-	return &Environment{}
-}
-
-var env = NewEnvironment()
-
-func GetEnvironment() *Environment {
-	return env
 }

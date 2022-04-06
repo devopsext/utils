@@ -7,7 +7,6 @@ import (
 
 func MapGetKeyValues(s string) map[string]string {
 
-	env := GetEnvironment()
 	pairs := strings.Split(s, ",")
 
 	m := make(map[string]string)
@@ -24,7 +23,7 @@ func MapGetKeyValues(s string) map[string]string {
 			if strings.HasPrefix(v, "${") && strings.HasSuffix(v, "}") {
 				ed := strings.SplitN(v[2:len(v)-1], ":", 2)
 				e, d := ed[0], ed[1]
-				v = env.Get(e, "").(string)
+				v = EnvGet(e, "").(string)
 				if v == "" && d != "" {
 					v = d
 				}

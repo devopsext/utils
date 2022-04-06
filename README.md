@@ -1,6 +1,1 @@
-# Utils for usage
-
-## Includes
-
-- env
-- log
+# Utils
