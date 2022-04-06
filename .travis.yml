@@ -1,0 +1,19 @@
+language: go
+
+go:
+  - "1.17.x"
+
+go_import_path: github.com/devopsext/utils
+
+before_install:
+  - env GO111MODULE=on
+
+install:
+  - go get -t -v ./
+
+script:
+  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./
+  - go build ./
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

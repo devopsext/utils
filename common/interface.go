@@ -1,4 +1,4 @@
-package utils
+package common
 
 import (
 	"reflect"
@@ -36,6 +36,5 @@ func Contains(items interface{}, item interface{}) bool {
 			}
 		}
 	}
-
 	return false
 }
