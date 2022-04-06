@@ -25,3 +25,7 @@ func NewHttpClient(timeout int, insecure bool) *http.Client {
 func NewHttpInsecureClient(timeout int) *http.Client {
 	return NewHttpClient(timeout, true)
 }
+
+func NewHttpSecureClient(timeout int) *http.Client {
+	return NewHttpClient(timeout, false)
+}
