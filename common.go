@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"io/ioutil"
+	"os"
 	"reflect"
 	"strings"
 )
@@ -35,4 +37,17 @@ func Contains(items interface{}, item interface{}) bool {
 		}
 	}
 	return false
+}
+
+func Content(contentOrPath string) ([]byte, error) {
+
+	_, err := os.Stat(contentOrPath)
+	if err == nil {
+		b, err := ioutil.ReadFile(contentOrPath)
+		if err != nil {
+			return nil, err
+		}
+		return b, nil
+	}
+	return []byte(contentOrPath), nil
 }
