@@ -17,7 +17,7 @@ func IsEmpty(v interface{}) bool {
 	case bool:
 		return v.(bool)
 	default:
-		return true
+		return v == nil
 	}
 }
 
