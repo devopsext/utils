@@ -16,6 +16,12 @@ func IsEmpty(v interface{}) bool {
 		return v.(int) == 0
 	case bool:
 		return v.(bool)
+	case []string:
+		arr := v.([]string)
+		if len(arr) == 1 && len(strings.TrimSpace(arr[0])) == 0 {
+			return true
+		}
+		return false
 	default:
 		return v == nil
 	}
