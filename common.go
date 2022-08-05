@@ -21,7 +21,7 @@ func IsEmpty(v interface{}) bool {
 		if len(arr) == 1 && len(strings.TrimSpace(arr[0])) == 0 {
 			return true
 		}
-		return false
+		return len(arr) == 0
 	default:
 		return v == nil
 	}
