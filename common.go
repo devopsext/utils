@@ -44,6 +44,20 @@ func Contains(items interface{}, item interface{}) bool {
 	return false
 }
 
+func Index(items interface{}, item interface{}) int {
+
+	arrV := reflect.ValueOf(items)
+
+	if arrV.Kind() == reflect.Slice {
+		for i := 0; i < arrV.Len(); i++ {
+			if arrV.Index(i).Interface() == item {
+				return i
+			}
+		}
+	}
+	return -1
+}
+
 func Content(contentOrPath string) ([]byte, error) {
 
 	if FileExists(contentOrPath) {
