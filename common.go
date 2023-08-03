@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"io/ioutil"
+	"os"
 	"reflect"
 	"strings"
 )
@@ -61,7 +61,7 @@ func Index(items interface{}, item interface{}) int {
 func Content(contentOrPath string) ([]byte, error) {
 
 	if FileExists(contentOrPath) {
-		b, err := ioutil.ReadFile(contentOrPath)
+		b, err := os.ReadFile(contentOrPath)
 		if err != nil {
 			return nil, err
 		}
