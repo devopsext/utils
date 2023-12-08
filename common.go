@@ -23,7 +23,7 @@ func IsEmpty(v interface{}) bool {
 		}
 		return len(arr) == 0
 	default:
-		return v == nil
+		return reflect.ValueOf(v).IsNil()
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func GetRoutineID() uint64 {
+func GoRoutineID() uint64 {
 	b := make([]byte, 64)
 	b = b[:runtime.Stack(b, false)]
 	b = bytes.TrimPrefix(b, []byte("goroutine "))
