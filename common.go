@@ -23,6 +23,9 @@ func IsEmpty(v interface{}) bool {
 		}
 		return len(arr) == 0
 	default:
+		if v == nil {
+			return true
+		}
 		return reflect.ValueOf(v).IsNil()
 	}
 }
