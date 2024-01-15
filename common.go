@@ -14,6 +14,10 @@ func IsEmpty(v interface{}) bool {
 		return len(strings.TrimSpace(v.(string))) == 0
 	case int:
 		return v.(int) == 0
+	case float32:
+		return v.(float32) == 0.0
+	case float64:
+		return v.(float64) == 0.0
 	case bool:
 		return v.(bool)
 	case []string:
