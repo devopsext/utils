@@ -32,14 +32,18 @@ func HttpRequestRawWithHeaders(client *http.Client, method, URL string, headers 
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("response status code: %s", resp.Status)
+	var b []byte
+	if !IsEmpty(resp.Body) {
+		b, err = io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return b, fmt.Errorf(resp.Status)
 	}
+
 	return b, nil
 }
 
@@ -81,13 +85,16 @@ func HttpRequestRawWithHeadersOutCode(client *http.Client, method, URL string, h
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, 0, fmt.Errorf(resp.Status)
+	var b []byte
+	if !IsEmpty(resp.Body) {
+		b, err = io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, resp.StatusCode, err
+		}
 	}
 
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, 0, err
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return b, resp.StatusCode, fmt.Errorf(resp.Status)
 	}
 
 	return b, resp.StatusCode, nil
@@ -145,14 +152,18 @@ func HttpGetRawWithHeaders(client *http.Client, URL string, headers map[string]s
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf(resp.Status)
+	var b []byte
+	if !IsEmpty(resp.Body) {
+		b, err = io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return b, fmt.Errorf(resp.Status)
 	}
+
 	return b, nil
 }
 
