@@ -104,7 +104,7 @@ func HttpDeleteRawWithHeaders(client *http.Client, URL string, headers map[strin
 func HttpDeleteRaw(client *http.Client, URL, contentType string, authorization string, raw []byte) ([]byte, error) {
 
 	headers := httpContentTypeAndAuthorizationHeaders(contentType, authorization)
-	return HttpPutRawWithHeaders(client, URL, headers, raw)
+	return HttpDeleteRawWithHeaders(client, URL, headers, raw)
 }
 
 func HttpGetRawWithHeaders(client *http.Client, URL string, headers map[string]string) ([]byte, error) {
