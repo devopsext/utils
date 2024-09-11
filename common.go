@@ -38,8 +38,9 @@ func IsEmpty(v interface{}) bool {
 func Contains(items interface{}, item interface{}) bool {
 
 	arrV := reflect.ValueOf(items)
+	kind := arrV.Kind()
 
-	if arrV.Kind() == reflect.Slice {
+	if kind == reflect.Slice {
 		for i := 0; i < arrV.Len(); i++ {
 			// XXX - panics if slice element points to an unexported struct field
 			// see https://golang.org/pkg/reflect/#Value.Interface

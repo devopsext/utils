@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func MapGetKeyValues(s string) map[string]string {
+func MapGetKeyValuesEx(s string, delim string) map[string]string {
 
 	pairs := strings.Split(s, ",")
 
@@ -16,7 +16,7 @@ func MapGetKeyValues(s string) map[string]string {
 		if IsEmpty(p) {
 			continue
 		}
-		kv := strings.SplitN(p, "=", 2)
+		kv := strings.SplitN(p, delim, 2)
 		k := strings.TrimSpace(kv[0])
 		if len(kv) > 1 {
 			v := strings.TrimSpace(kv[1])
@@ -34,6 +34,11 @@ func MapGetKeyValues(s string) map[string]string {
 		}
 	}
 	return m
+}
+
+func MapGetKeyValues(s string) map[string]string {
+
+	return MapGetKeyValuesEx(s, "=")
 }
 
 func MapToArrayWithSeparator(m map[string]string, s string) []string {
