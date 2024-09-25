@@ -128,7 +128,7 @@ func HttpGetRaw(client *http.Client, URL, contentType string, authorization stri
 }
 
 func HttpGetHeader(client *http.Client, URL string) (map[string][]string, error) {
-	return HttpRequestGetHeaderCode(client, URL)
+	return HttpRequestGetHeader(client, URL)
 }
 
 func NewHttpClient(timeout int, insecure bool) *http.Client {
