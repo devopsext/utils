@@ -22,6 +22,17 @@ func httpContentTypeAndAuthorizationHeaders(contentType string, authorization st
 	return headers
 }
 
+func HttpRequestGetHeader(client *http.Client, URL string) (header map[string][]string, err error) {
+
+	resp, err := client.Head(URL)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return resp.Header, nil
+}
+
 func HttpRequestRawWithHeadersOutCode(client *http.Client, method, URL string, headers map[string]string, raw []byte) (body []byte, code int, err error) {
 
 	var reader io.Reader
@@ -112,9 +123,12 @@ func HttpGetRawWithHeaders(client *http.Client, URL string, headers map[string]s
 }
 
 func HttpGetRaw(client *http.Client, URL, contentType string, authorization string) ([]byte, error) {
-
 	headers := httpContentTypeAndAuthorizationHeaders(contentType, authorization)
 	return HttpGetRawWithHeaders(client, URL, headers)
+}
+
+func HttpGetHeader(client *http.Client, URL string) (map[string][]string, error) {
+	return HttpRequestGetHeader(client, URL)
 }
 
 func NewHttpClient(timeout int, insecure bool) *http.Client {
