@@ -123,6 +123,7 @@ func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers ma
 			}
 			backoff := time.Duration(math.Pow(2, float64(attempt))) * time.Second
 			time.Sleep(backoff)
+			continue
 		}
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 			return b, resp.StatusCode, fmt.Errorf(resp.Status)
