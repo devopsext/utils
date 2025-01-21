@@ -73,6 +73,44 @@ func HttpRequestRawWithHeadersOutCode(client *http.Client, method, URL string, h
 
 	return b, resp.StatusCode, nil
 }
+func HttpRequestRawWithHeadersOutCodeSilent(client *http.Client, method, URL string, headers map[string]string, raw []byte) (body []byte, code int, err error) {
+
+	var reader io.Reader
+	if raw != nil {
+		reader = bytes.NewReader(raw)
+	}
+
+	req, err := http.NewRequest(method, URL, reader)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	for k, v := range headers {
+		if IsEmpty(v) {
+			continue
+		}
+		req.Header.Set(k, v)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer resp.Body.Close()
+
+	var b []byte
+	if !IsEmpty(resp.Body) {
+		b, err = io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, resp.StatusCode, err
+		}
+	}
+	if len(b) == 0 {
+		return []byte(fmt.Sprintf(`{"code":%d}`, resp.StatusCode)), resp.StatusCode, nil
+	}
+
+	return b, resp.StatusCode, nil
+}
 
 func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers map[string]string, raw []byte, maxRetries int, retryHeader string) (body []byte, code int, err error) {
 
