@@ -73,6 +73,7 @@ func HttpRequestRawWithHeadersOutCode(client *http.Client, method, URL string, h
 
 	return b, resp.StatusCode, nil
 }
+
 func HttpRequestRawWithHeadersOutCodeSilent(client *http.Client, method, URL string, headers map[string]string, raw []byte) (body []byte, code int, err error) {
 
 	var reader io.Reader
