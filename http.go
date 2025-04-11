@@ -59,19 +59,19 @@ func HttpRequestRawWithHeadersOutCode(client *http.Client, method, URL string, h
 	}
 	defer resp.Body.Close()
 
-	var b []byte
+	var b bytes.Buffer
 	if !IsEmpty(resp.Body) {
-		b, err = io.ReadAll(resp.Body)
+		_, err = io.Copy(&b, resp.Body)
 		if err != nil {
 			return nil, resp.StatusCode, err
 		}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return b, resp.StatusCode, fmt.Errorf(resp.Status)
+		return b.Bytes(), resp.StatusCode, fmt.Errorf(resp.Status)
 	}
 
-	return b, resp.StatusCode, nil
+	return b.Bytes(), resp.StatusCode, nil
 }
 
 func HttpRequestRawWithHeadersOutCodeSilent(client *http.Client, method, URL string, headers map[string]string, raw []byte) (body []byte, code int, err error) {
