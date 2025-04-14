@@ -99,18 +99,18 @@ func HttpRequestRawWithHeadersOutCodeSilent(client *http.Client, method, URL str
 	}
 	defer resp.Body.Close()
 
-	var b []byte
+	var b bytes.Buffer
 	if !IsEmpty(resp.Body) {
-		b, err = io.ReadAll(resp.Body)
+		_, err = io.Copy(&b, resp.Body)
 		if err != nil {
 			return nil, resp.StatusCode, err
 		}
 	}
-	if len(b) == 0 {
+	if b.Len() == 0 {
 		return []byte(fmt.Sprintf(`{"code":%d}`, resp.StatusCode)), resp.StatusCode, nil
 	}
 
-	return b, resp.StatusCode, nil
+	return b.Bytes(), resp.StatusCode, nil
 }
 
 func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers map[string]string, raw []byte, maxRetries int, retryHeader string) (body []byte, code int, err error) {
@@ -120,7 +120,7 @@ func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers ma
 		reader = bytes.NewReader(raw)
 	}
 
-	var b []byte
+	var b bytes.Buffer
 
 	req, err := http.NewRequest(method, URL, reader)
 	if err != nil {
@@ -143,7 +143,7 @@ func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers ma
 		defer resp.Body.Close()
 
 		if !IsEmpty(resp.Body) {
-			b, err = io.ReadAll(resp.Body)
+			_, err = io.Copy(&b, resp.Body)
 			if err != nil {
 				return nil, resp.StatusCode, err
 			}
@@ -165,9 +165,9 @@ func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers ma
 			continue
 		}
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-			return b, resp.StatusCode, fmt.Errorf(resp.Status)
+			return b.Bytes(), resp.StatusCode, fmt.Errorf(resp.Status)
 		}
-		return b, resp.StatusCode, nil
+		return b.Bytes(), resp.StatusCode, nil
 	}
 	return nil, 0, fmt.Errorf("max retries exceeded")
 }
