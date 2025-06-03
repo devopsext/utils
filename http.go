@@ -222,6 +222,15 @@ func HttpPutRaw(client *http.Client, URL, contentType string, authorization stri
 	return HttpPutRawWithHeaders(client, URL, headers, raw)
 }
 
+func HttpPatchRawWithHeaders(client *http.Client, URL string, headers map[string]string, raw []byte) ([]byte, error) {
+	return HttpRequestRawWithHeaders(client, "PATCH", URL, headers, raw)
+}
+
+func HttpPatchRaw(client *http.Client, URL, contentType string, authorization string, raw []byte) ([]byte, error) {
+	headers := httpContentTypeAndAuthorizationHeaders(contentType, authorization)
+	return HttpPatchRawWithHeaders(client, URL, headers, raw)
+}
+
 func HttpDeleteRawWithHeaders(client *http.Client, URL string, headers map[string]string, raw []byte) ([]byte, error) {
 	return HttpRequestRawWithHeaders(client, "DELETE", URL, headers, raw)
 }
