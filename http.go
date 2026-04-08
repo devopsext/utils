@@ -138,7 +138,7 @@ func HttpRequestRawWithRetry(client *http.Client, method, URL string, headers ma
 
 		resp, err := client.Do(req)
 		if err != nil {
-			return nil, resp.StatusCode, err
+			return nil, 0, err
 		}
 		defer resp.Body.Close()
 
